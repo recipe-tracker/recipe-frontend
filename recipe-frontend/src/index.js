@@ -1,14 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from "../src/app";
+import App from "../app";
 
 const Main = () => {
-  render() {
-    return <h1>My React App!!</h1>;
-
-  };
+  return (
+    <App />
+  )
 };
 
 const root = document.getElementById('root');
-ReactDOM.render(<App />, root);
+ReactDOM.render(<Main />, root);

@@ -54,13 +54,20 @@ class LoginProvider extends React.Component {
 
   // state handling
 
+  setLoginState = ( loggedIn, user, token) => {
+    cookie.save('auth', token);
+    this.setState({ token, loggedIn, user });
+  }
+
   componentDidMount() {
     // when component is born validate tokens, set cookies if possible
+    const cookieToken = cookie.load('auth');
+    this.validateToken(cookieToken);
   }
 
   render() {
     return(
-      <LoginContext.Provider>
+      <LoginContext.Provider value ={this.state}>
         {this.props.children}
       </LoginContext.Provider>
     )
