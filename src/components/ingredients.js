@@ -4,23 +4,23 @@ import { connect } from 'react-redux';
 
 import ingredientsActions from '../store/actions/ingredients';
 
-const Ingredients = ( props ) => {
-  const [ ingredientsTitle, setIngredientsTitle ] = useState( '' );
-  const [ ingredientsContent, setIngredientsContent ] = useState( '' );
+const Ingredients = (props) => {
+  const [ingredientsTitle, setIngredientsTitle] = useState('');
+  const [ingredientsContent, setIngredientsContent] = useState('');
 
-  function handleSubmit( e ) {
+  function handleSubmit(e) {
     e.preventDefault();
-    props.addIngredients( { title: ingredientsTitle, content: ingredientsContent } );
+    props.addIngredients({ title: ingredientsTitle, content: ingredientsContent });
   }
 
-  useEffect( () => {
+  useEffect(() => {
     props.fetchIngredients();
-  }, [] );
+  }, []);
 
   return (
     <>
       <ul>
-        {props.ingredients.map(( ingredients, idx ) => (
+        {props.ingredients.map((ingredients, idx) => (
           <li key={idx}>
             <p>{ingredients.title}</p>
             <p>{ingredients.content}</p>
@@ -32,13 +32,13 @@ const Ingredients = ( props ) => {
           type="text"
           placeholder="Ingredients"
           value={ingredientsTitle}
-          onChange={( e ) => setIngredientsTitle( e.target.value )}
+          onChange={(e) => setIngredientsTitle(e.target.value)}
         />
         <input
           type="text"
           placeholder="Ingredients"
           value={ingredientsContent}
-          onChange={( e ) => setIngredientsContent( e.target.value )}
+          onChange={(e) => setIngredientsContent(e.target.value)}
         />
         <button type="submit">Submit</button>
       </form>
@@ -46,13 +46,13 @@ const Ingredients = ( props ) => {
   );
 };
 
-const mapStateToProps = ( state ) => ({
+const mapStateToProps = (state) => ({
   todos: state.ingredients,
 });
 
-const mapDispatchToProps = ( dispatch ) => ({
-  fetchIngredients: () => dispatch( ingredientsActions.fetchIngredients() ),
-  addIngredients: ( data ) => dispatch( ingredientsActions.addIngredients( data ) ),
+const mapDispatchToProps = (dispatch) => ({
+  fetchIngredients: () => dispatch(ingredientsActions.fetchIngredients()),
+  addIngredients: (data) => dispatch(ingredientsActions.addIngredients(data)),
 });
 
 Ingredients.propTypes = {
@@ -64,4 +64,4 @@ Ingredients.propTypes = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)( Ingredients );
+)(Ingredients);
