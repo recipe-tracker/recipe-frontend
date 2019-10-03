@@ -3,7 +3,9 @@
 
 import React from 'react';
 import jwt from 'jsonwebtoken';
+import cookie from 'react-cookies';
 // import proptypes for prop validation
+const API = process.env.REACT_APP_API;
 
 export const LoginContext = React.createContext();
 
@@ -40,16 +42,28 @@ class LoginProvider extends React.Component {
       });
     }
     
-    fetch('${API}/${type}',options)
-      .then()
-      .catch();
-  }
+    fetch(`${API}/${type}`,options)
+    .then((response) => response.text())
+    .then((token) => this.validateToken(token))
+    .catch(console.error);
+  };
 
   // logout
+  logout = () => {
+    this.setLoginState( false, null, {} );
+  };
+
 
   // validate token
   validateToken = (token) => {
-    
+    try {
+      const user = jwt.verify(token, process.env.REACT_APP_SECRET);
+      console.log(user);
+      this.setLoginState(true, token, user);
+    } catch (e) {
+      this.setLoginState(false, null, {});
+      console.log('Token Validation Error', e);
+    }
   }
 
   // state handling
@@ -57,11 +71,13 @@ class LoginProvider extends React.Component {
   setLoginState = ( loggedIn, user, token) => {
     cookie.save('auth', token);
     this.setState({ token, loggedIn, user });
-  }
+  };
 
   componentDidMount() {
     // when component is born validate tokens, set cookies if possible
+    const qs = new URLSearchParams(window.location.search);
     const cookieToken = cookie.load('auth');
+    const token = qs.get( 'token' ) || cookieToken || null;
     this.validateToken(cookieToken);
   }
 

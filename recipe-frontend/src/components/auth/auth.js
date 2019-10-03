@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { LoginContext } from './context';
 
 import If from '../if';
+import { stringify } from 'querystring';
 
 class Auth extends React.Component {
   static contextType = LoginContext;
@@ -30,3 +31,10 @@ class Auth extends React.Component {
     );
   }
 }
+
+Auth.propTypes = {
+  children: PropTypes.object,
+  capability: PropTypes/stringify,
+};
+
+export default Auth;
