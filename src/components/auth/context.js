@@ -5,7 +5,7 @@ import React from 'react';
 import jwt from 'jsonwebtoken';
 import cookie from 'react-cookies';
 // import proptypes for prop validation
-const API = process.env.REACT_APP_API;
+// const APIS = process.env.REACT_APP_API;
 
 export const LoginContext = React.createContext();
 
@@ -26,7 +26,7 @@ class LoginProvider extends React.Component {
 
   // login signup and signin
   login = (username,password,type) => {
-    let option = {
+    let options = {
       method: 'POST',
       mode: 'cors',
       cache: 'no-cache',
@@ -35,7 +35,7 @@ class LoginProvider extends React.Component {
       })
     };
 
-    if (type === signup) {
+    if (type === 'signup') {
       options.body = JSON.stringify({username, password});
       options.headers = new Headers({
         'Content-Type': 'application/json',
@@ -75,9 +75,9 @@ class LoginProvider extends React.Component {
 
   componentDidMount() {
     // when component is born validate tokens, set cookies if possible
-    const qs = new URLSearchParams(window.location.search);
+    // const qs = new URLSearchParams(window.location.search);
     const cookieToken = cookie.load('auth');
-    const token = qs.get( 'token' ) || cookieToken || null;
+    // const token = qs.get( 'token' ) || cookieToken || null;
     this.validateToken(cookieToken);
   }
 
